@@ -1,4 +1,6 @@
 import 'package:coffee_shop/Home.dart';
+import 'package:coffee_shop/widgets/home_bottom_bar.dart';
+import 'package:coffee_shop/widgets/items_widget.dart';
 import 'package:flutter/material.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -40,7 +42,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               InkWell(
-                onTap: (){},
+                onTap: (){
+                  Navigator.pop(context);
+                },
                 child: Icon(
                   Icons.sort_rounded,
                   color: Colors.white.withOpacity(0.5),
@@ -77,6 +81,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             ),
             child: TextFormField(
               decoration: InputDecoration(
+                contentPadding: EdgeInsets.only(bottom: 2),
                 hintText: "Find your coffee",
                 hintStyle: TextStyle(color: Colors.white.withOpacity(0.5),),
                 prefix: Icon(
@@ -86,11 +91,41 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 )
               ),
             ),
-          )
+          ),
+          TabBar(
+            controller: _tabController,
+            labelColor: Colors.orange,
+            unselectedLabelColor: Colors.white.withOpacity(0.5),
+            //isScrollable: true,
+            indicator:const UnderlineTabIndicator(
+              borderSide: BorderSide(
+                width: 3,
+                color: Colors.orange,
+              ),
+             // insets: EdgeInsets.symmetric(horizontal: 16),
+            ),
+            labelStyle: const TextStyle(fontSize: 14,fontWeight: FontWeight.w400),
+            labelPadding: const EdgeInsets.symmetric(horizontal: 20),
+            tabs: const [
+            Tab(text: "Hot Coffee",),
+            Tab(text: "Cold Coffee",),
+            Tab(text: "Cappuiccino",),
+            Tab(text: "Americano",),
+          ]),
+          const SizedBox(height: 10),
+          Center(
+            child: [
+              ItemsWidget(),
+              ItemsWidget(),
+              ItemsWidget(),
+              ItemsWidget(),
+            ][_tabController.index],
+          ),
         ],
       ),
       ),
       ),
+      bottomNavigationBar: HomeBottomBar(),
     );
   }
 }
